@@ -1,0 +1,10 @@
+﻿{
+  "Server": {
+    "Port": "8888",
+    "Host": "127.0.0.1",
+    "Path": ""
+  },
+  "Database": {
+    "ConnectionString": "Host=localhost;Port=5432;Database=;Username=postgres;Password="
+  }
+}

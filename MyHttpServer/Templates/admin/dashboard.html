@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Админка — Таверна «Красный Дракон»</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main class="container">
+
+    <nav class="admin-nav">
+      <a href="/admin" class="active">Сводка</a>
+      <a href="/admin/cards">Карты персонажей</a>
+      <a href="/admin/drinks">Выпивка и попойки</a>
+      <span class="spacer"></span>
+      <a class="back" href="/">← На сайт</a>
+    </nav>
+
+    <h1>Админка</h1>
+    <p>Отсюда добавляются карты персонажей и общая колода выпивки.</p>
+
+    <div class="admin-tiles">
+      <div class="admin-tile"><b>${CharacterCount}</b>Персонажей</div>
+      <div class="admin-tile"><b>${CardCount}</b>Карт персонажей</div>
+      <div class="admin-tile"><b>${DrinkCount}</b>Карт выпивки</div>
+      $if (MissingImages > 0)
+      <div class="admin-tile warn"><b>${MissingImages}</b>Карт без картинки</div>
+      $end
+    </div>
+
+    <p>
+      <a class="btn btn-primary" href="/admin/cards/new">+ Добавить карту персонажа</a>
+      <a class="btn btn-ghost" href="/admin/drinks/new">+ Добавить выпивку</a>
+    </p>
+
+  </main>
+</body>
+</html>

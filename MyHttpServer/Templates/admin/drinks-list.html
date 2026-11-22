@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Выпивка и попойки — Админка</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main class="container">
+
+    <nav class="admin-nav">
+      <a href="/admin">Дашборд</a>
+      <a href="/admin/cards">Карты персонажей</a>
+      <a href="/admin/drinks" class="active">Выпивка и попойки</a>
+      <span class="spacer"></span>
+      <a class="back" href="/">← На сайт</a>
+    </nav>
+
+    <div class="admin-toolbar">
+      <h1>Выпивка и попойки (${Total})</h1>
+      <a class="btn btn-primary" href="/admin/drinks/new">+ Добавить выпивку</a>
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Вид</th>
+          <th>Крепость</th>
+          <th>Картинка</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        $if (Total == 0)
+        <tr class="empty-row"><td colspan="5">Выпивки пока нет — начни с «Добавить выпивку».</td></tr>
+        $else
+        $foreach (row in Rows)
+        <tr>
+          <td>${row.Name}</td>
+          <td>${row.KindLabel}</td>
+          <td>${row.Strength}</td>
+          <td>
+            $if (row.HasImage)
+            <span class="pic-flag" title="Картинка есть"></span>
+            $else
+            <span class="pic-flag missing" title="Картинки нет"></span>
+            $end
+          </td>
+          <td class="row-actions">
+            <a class="btn btn-ghost btn-sm" href="/admin/drinks/edit?id=${row.Id}">Изменить</a>
+            <form method="post" action="/admin/drinks/delete?id=${row.Id}" onsubmit="return confirm('Удалить «${row.Name}»?')">
+              <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+            </form>
+          </td>
+        </tr>
+        $endforeach
+        $end
+      </tbody>
+    </table>
+
+  </main>
+</body>
+</html>

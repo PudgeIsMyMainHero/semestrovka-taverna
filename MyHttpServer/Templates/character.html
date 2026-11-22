@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${Character.Name} — Таверна «Красный Дракон»</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/cards.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+        <a class="logo" href="/"><img src="RedDragonLogo.png" alt="Таверна «Красный Дракон»"></a>
+      <nav class="menu">
+        <a href="/">Главная</a>
+        <a href="/rules">Правила</a>
+        <a href="/characters" class="active">Персонажи</a>
+        <a href="/cards">Карты</a>
+        <a href="/login">Войти</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <p class="back"><a href="/characters">← Все персонажи</a></p>
+    <article class="character-page block">
+      <div class="character-hero">
+          <img
+                  class="character-portrait"
+                  src="${Character.PortraitPath}"
+                  alt="${Character.Name}"
+          >
+        <div>
+          <h1>${Character.Name}</h1>
+          <div class="role">${Character.Role}</div>
+        </div>
+      </div>
+
+      <p class="lead">${Character.Description}</p>
+
+      <div class="pros-cons">
+        <div class="pros"><b>Плюсы</b>${Character.Pros}</div>
+        <div class="cons"><b>Минусы</b>${Character.Cons}</div>
+      </div>
+    </article>
+      
+    <section>
+      <h2>Колода (${DeckCount})</h2>
+
+      $if (DeckCount == 0)
+      <p>Карты этого персонажа ещё не добавлены в каталог.</p>
+      $else
+      <div class="catalog">
+        $foreach (card in Deck)
+        <article class="game-card kind-${card.Kind}">
+
+          $if (card.HasImage)
+          <div class="game-card-image">
+            <img src="${card.ImageUrl}" alt="${card.Name}" loading="lazy">
+          </div>
+          $else
+          <div class="game-card-image placeholder">🐉</div>
+          $end
+
+          <header class="game-card-head">
+            <span>${card.KindLabel}</span>
+            $if (card.HasCopies)
+            <span class="copies">×${card.Copies}</span>
+            $end
+          </header>
+
+          <h3>${card.Name}</h3>
+          <p class="description">${card.Description}</p>
+
+          $if (card.HasBadges)
+          <div class="badges">
+            $if (card.IsAction)
+            <span class="badge prop-action">Действие</span>
+            $end
+            $if (card.IsSometimes)
+            <span class="badge prop-sometimes">Иногда</span>
+            $end
+            $if (card.IsAlways)
+            <span class="badge prop-always">Всегда</span>
+            $end
+            $if (card.IsGamble)
+            <span class="badge prop-gamble">Азарт</span>
+            $end
+            $if (card.IsCheat)
+            <span class="badge prop-cheat">Обман</span>
+            $end
+          </div>
+          $end
+
+        </article>
+        $endforeach
+      </div>
+      $end
+    </section>
+
+    $if (Others.Count > 0)
+    <section>
+      <h2>Другие персонажи</h2>
+      <div class="grid">
+        $foreach (other in Others)
+        <a class="card other" href="/characters/details?id=${other.Id}">
+            <h3><img class="character-portrait" src="${other.PortraitPath}" alt=""> ${other.Name}</h3>
+          <p>${other.Role}</p>
+        </a>
+        $endforeach
+      </div>
+    </section>
+    $end
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+        <p>Тут могла быть важная инфа. Но тут только <a href="/admin">админ-панель</a>.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

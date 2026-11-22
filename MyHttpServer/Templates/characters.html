@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Персонажи — Таверна «Красный Дракон»</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+        <a class="logo" href="/"><img src="RedDragonLogo.png" alt="Таверна «Красный Дракон»"></a>
+      <nav class="menu">
+        <a href="/">Главная</a>
+        <a href="/rules">Правила</a>
+        <a href="/characters" class="active">Персонажи</a>
+        <a href="/cards">Карты</a>
+        <a href="/login">Войти</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="page-head">
+      <h1>Персонажи</h1>
+      <p>Выбери, за кого будешь пить, играть и мухлевать.</p>
+    </section>
+      
+    $if (Characters.Count == 0)
+    <p class="page-head">Персонажей пока нет.</p>
+    $else
+    <section class="grid grid-2">
+      $foreach (character in Characters)
+      <article class="character">
+        <div class="character-head">
+          <div class="portrait"><img class="portrait-image" src="${character.PortraitPath}" alt="${character.Name}"></div>
+          <div>
+            <a href="http://127.0.0.1:8888/characters/details?id=${character.Id}" >${character.Name}</a>
+            <div class="role">${character.Role}</div>
+          </div>
+        </div>
+
+        <p>${character.Description}</p>
+
+        <div class="pros-cons">
+          <div class="pros"><b>Плюсы</b>${character.Pros}</div>
+          <div class="cons"><b>Минусы</b>${character.Cons}</div>
+        </div>
+      </article>
+      $endforeach
+    </section>
+    $end
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+        <p>Тут могла быть важная инфа. Но тут только <a href="/admin">админ-панель</a>.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

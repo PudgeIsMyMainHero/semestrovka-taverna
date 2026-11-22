@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Таверна «Красный Дракон»</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+        <a class="logo" href="/"><img src="RedDragonLogo.png" alt="Таверна «Красный Дракон»"></a>
+        <nav class="menu">
+        <a href="/" class="active">Главная</a>
+        <a href="/rules">Правила</a>
+        <a href="/characters">Персонажи</a>
+        <a href="/cards">Карты</a>
+        <a href="/login">Войти</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <h1>Таверна «Красный Дракон»</h1>
+      <p>Остаться на ногах и при деньгах. Правила, персонажи и карты любимой настолки.</p>
+      <a class="button" href="/rules">Читать правила</a>
+    </section>
+
+    <section class="block">
+      <h2>Цель игры</h2>
+      <p>
+        Ты выбываешь, если у тебя закончилось золото или опьянение сравнялось
+        со стойкостью. Побеждает тот, кто остался на ногах и при деньгах.
+      </p>
+    </section>
+
+    <section>
+      <h2>Ход игрока</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>1. Сброс и добор</h3>
+          <p>Сбрось ненужные карты и добери до семи.</p>
+        </div>
+        <div class="card">
+          <h3>2. Действие</h3>
+          <p>Сыграй одну карту со свойством «действие».</p>
+        </div>
+        <div class="card">
+          <h3>3. Заказ выпивки</h3>
+          <p>Подложи карту выпивки другому игроку.</p>
+        </div>
+        <div class="card">
+          <h3>4. Кутёж</h3>
+          <p>Раскрой свою выпивку и выполни её.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <h2>Персонажи</h2>
+      $if (Characters.Count == 0)
+      <p>Персонажей пока нет.</p>
+      $else
+      <div class="grid">
+        $foreach (character in Characters)
+        <div class="card">
+          <h3>${character.Name}</h3>
+          <p>${character.Role}</p>
+        </div>
+        $endforeach
+      </div>
+      <p><a href="/characters">Все персонажи →</a></p>
+      $end
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+        <p>Тут могла быть важная инфа. Но тут только <a href="/admin">админ-панель</a>.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

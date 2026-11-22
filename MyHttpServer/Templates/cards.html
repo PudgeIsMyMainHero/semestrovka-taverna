@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Каталог карт — Таверна «Красный Дракон»</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/cards.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+        <a class="logo" href="/"><img src="RedDragonLogo.png" alt="Таверна «Красный Дракон»"></a>
+      <nav class="menu">
+        <a href="/">Главная</a>
+        <a href="/rules">Правила</a>
+        <a href="/characters">Персонажи</a>
+        <a href="/cards" class="active">Карты</a>
+        <a href="/login">Войти</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="page-head">
+      <h1>Каталог карт</h1>
+      <p>Карты персонажей, выпивка и попойки. Ищи по названию и фильтруй по виду, свойству и персонажу.</p>
+    </section>
+    <form class="filter" id="filterForm" method="get" action="/cards">
+      <div class="field">
+        <label for="q">Поиск</label>
+        <input type="search" id="q" name="q" value="${Query}" maxlength="60" placeholder="Название или текст карты">
+      </div>
+
+      <div class="field">
+        <label for="kind">Вид карты</label>
+        <select id="kind" name="kind">
+          $foreach (opt in Kinds)
+          <option value="${opt.Value}" ${opt.Selected} >${opt.Label}</option>
+          $endforeach
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="property">Свойство</label>
+        <select id="property" name="property">
+          $foreach (opt in Properties)
+          <option value="${opt.Value}" ${opt.Selected} >${opt.Label}</option>
+          $endforeach
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="character">Персонаж</label>
+        <select id="character" name="character">
+          $foreach (opt in Characters)
+          <option value="${opt.Value}" ${opt.Selected} >${opt.Label}</option>
+          $endforeach
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button class="button" type="submit">Найти</button>
+        <a class="button ghost" href="/cards">Сбросить</a>
+      </div>
+    </form>
+
+      <p id="filterError" class="filter-error" hidden></p>
+    <details class="legend">
+      <summary>Что означают свойства карт</summary>
+      <ul>
+        <li><span class="badge prop-action">Действие</span> играется на этапе действия своего хода.</li>
+        <li><span class="badge prop-sometimes">Иногда</span> играется только при условиях, указанных на карте, обычно в ответ на чужую.</li>
+        <li><span class="badge prop-always">Всегда</span> играется в любой момент, даже прервав другое действие.</li>
+        <li><span class="badge prop-gamble">Азарт</span> и <span class="badge prop-cheat">Обман</span> играются в раунде азартных игр и дают перевес.</li>
+      </ul>
+    </details>
+      
+      <div id="catalogArea">
+        <p class="results-info">
+          $if (IsFiltered)
+          Найдено карт: ${Found} из ${Total}
+          $else
+          Всего карт в каталоге: ${Total}
+          $end
+        </p>
+          
+        $if (Found == 0)
+        <div class="empty">
+          <span class="big">🕯️</span>
+          <p>Ничего не нашлось. Попробуй изменить запрос или <a href="/cards">сбросить фильтр</a>.</p>
+        </div>
+        $else
+        <section class="catalog">
+          $foreach (card in Cards)
+          <article class="game-card kind-${card.Kind}">
+    
+            $if (card.HasImage)
+            <div class="game-card-image">
+              <img src="${card.ImageUrl}" alt="${card.Name}" loading="lazy">
+            </div>
+            $else
+            <div class="game-card-image placeholder">🐉</div>
+            $end
+    
+            <header class="game-card-head">
+              <span>${card.KindLabel}</span>
+              $if (card.HasCopies)
+              <span class="copies">×${card.Copies}</span>
+              $end
+            </header>
+    
+            <h3>${card.Name}</h3>
+    
+            <p class="owner">
+              $if (card.CharacterId > 0)
+              <a href="/characters/details?id=${card.CharacterId}" >${card.Owner}</a>
+              $else
+              ${card.Owner}
+              $end
+            </p>
+    
+            <p class="description">${card.Description}</p>
+    
+            $if (card.HasBadges)
+            <div class="badges">
+              $if (card.IsAction)
+              <span class="badge prop-action">Действие</span>
+              $end
+              $if (card.IsSometimes)
+              <span class="badge prop-sometimes">Иногда</span>
+              $end
+              $if (card.IsAlways)
+              <span class="badge prop-always">Всегда</span>
+              $end
+              $if (card.IsGamble)
+              <span class="badge prop-gamble">Азарт</span>
+              $end
+              $if (card.IsCheat)
+              <span class="badge prop-cheat">Обман</span>
+              $end
+              $if (card.IsDrink)
+              <span class="badge strength">🍺 Крепость: ${card.Strength}</span>
+              $end
+              $if (card.HasChaser)
+              <span class="badge chaser">С запивоном</span>
+              $end
+              $if (card.HasFortitudeChange)
+              <span class="badge fortitude">Стойкость: ${card.FortitudeText}</span>
+              $end
+            </div>
+            $end
+    
+          </article>
+          $endforeach
+        </section>
+        $end
+      
+      </div>
+      
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+        <p>Тут могла быть важная инфа. Но тут только <a href="/admin">админ-панель</a>.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

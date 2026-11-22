@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${Title} — Админка</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main class="container">
+
+    <nav class="admin-nav">
+      <a href="/admin">Дашборд</a>
+      <a href="/admin/cards" class="active">Карты персонажей</a>
+      <a href="/admin/drinks">Выпивка и попойки</a>
+      <span class="spacer"></span>
+      <a class="back" href="/">← На сайт</a>
+    </nav>
+
+    <p><a href="/admin/cards">← К списку карт</a></p>
+    <h1>${Title}</h1>
+
+    $if (HasErrors)
+    <div class="admin-errors">
+      Форма не сохранена:
+      <ul>
+        $foreach (error in Errors)
+        <li>${error}</li>
+        $endforeach
+      </ul>
+    </div>
+    $end
+      
+    <form class="admin-form" method="post" action="${FormAction}">
+
+      <div class="field">
+        <label for="characterid">Персонаж</label>
+        <select id="characterid" name="characterid" required>
+          $foreach (opt in CharacterOptions)
+          <option value="${opt.Value}" ${opt.Selected} >${opt.Label}</option>
+          $endforeach
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="name">Название карты</label>
+        <input type="text" id="name" name="name" value="${Name}" maxlength="80" required>
+      </div>
+
+      <div class="field">
+        <label for="description">Текст карты</label>
+        <textarea id="description" name="description" required>${Description}</textarea>
+      </div>
+
+      <div class="field">
+        <label>Свойства (отметь хотя бы одно)</label>
+        <div class="checks">
+          <label class="check-item"><input type="checkbox" name="isaction" value="true" ${ChkAction}> Действие</label>
+          <label class="check-item"><input type="checkbox" name="issometimes" value="true" ${ChkSometimes}> Иногда</label>
+          <label class="check-item"><input type="checkbox" name="isalways" value="true" ${ChkAlways}> Всегда</label>
+          <label class="check-item"><input type="checkbox" name="isgamble" value="true" ${ChkGamble}> Азарт</label>
+          <label class="check-item"><input type="checkbox" name="ischeat" value="true" ${ChkCheat}> Обман</label>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="copies">Копий в колоде</label>
+          <input type="number" id="copies" name="copies" value="${Copies}" min="1" max="10" required>
+        </div>
+
+        <div class="field">
+          <label for="imagepath">Картинка</label>
+          <select id="imagepath" name="imagepath">
+            $foreach (opt in ImageOptions)
+            <option value="${opt.Value}" ${opt.Selected} >${opt.Label}</option>
+            $endforeach
+          </select>
+          <p class="hint">Список собран из файлов в static/cards</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">${SubmitLabel}</button>
+        <a class="btn btn-ghost" href="/admin/cards">Отмена</a>
+      </div>
+    </form>
+
+  </main>
+</body>
+</html>
